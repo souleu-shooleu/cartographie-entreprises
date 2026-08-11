@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carte interactive des entreprises</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="panel">
+    <h2>Entreprises recensées</h2>
+    <div class="search-row">
+      <input id="search" type="text" placeholder="Rechercher une entreprise...">
+      <button id="clear">✕</button>
+    </div>
+    <div id="result-count"></div>
+    <div id="results"></div>
+  </div>
+
+  <button id="panel-toggle" title="Afficher/masquer la recherche">☰</button>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
