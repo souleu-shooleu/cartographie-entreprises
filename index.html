@@ -6,23 +6,189 @@
 <title>Carte interactive des entreprises</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-html,body,#map{height:100%;margin:0;font-family:Arial,sans-serif}
-#map{z-index:1}
-.panel{position:absolute;z-index:1000;top:15px;left:15px;width:340px;max-height:calc(100vh - 30px);background:#fff;padding:15px;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.25);box-sizing:border-box}
-.panel h2{margin:0 0 12px;font-size:20px}
-.search-row{display:flex;gap:6px}
-#search{flex:1;padding:10px;border:1px solid #bbb;border-radius:6px;font-size:14px}
-#clear{border:0;border-radius:6px;padding:0 12px;cursor:pointer}
-#result-count{margin:10px 0;font-size:13px;color:#555}
-#results{overflow-y:auto;max-height:calc(100vh - 160px)}
-.result{padding:9px;border-bottom:1px solid #eee;cursor:pointer}
-.result:hover{background:#f2f2f2}
-.result strong{display:block}
-.popup-table td{padding:3px 7px 3px 0;vertical-align:top}
-.popup-table td:first-child{font-weight:bold}
-#panel-toggle{display:none;position:absolute;z-index:1001;top:15px;left:15px;border:0;border-radius:7px;padding:10px 13px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer}
-@media(max-width:650px){.panel{display:none;top:65px;left:10px;width:calc(100% - 20px);max-height:55vh}.panel.open{display:block}#panel-toggle{display:block}#results{max-height:35vh}}
+* {
+    box-sizing: border-box;
+}
+
+html, body, #map {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#map {
+    z-index: 1;
+}
+
+/* PANNEAU PRINCIPAL */
+.panel {
+    position: absolute;
+    z-index: 1000;
+    top: 15px;
+    left: 15px;
+    width: 370px;
+    max-height: calc(100vh - 30px);
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 18px rgba(0,0,0,.28);
+    overflow: hidden;
+}
+
+.header {
+    padding: 16px 18px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.header h1 {
+    margin: 0 0 5px;
+    font-size: 19px;
+}
+
+.header p {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.body {
+    padding: 14px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 14px;
+    background: white;
+}
+
+.stats {
+    margin: 12px 0;
+    padding: 11px;
+    border-radius: 8px;
+    background: #f1f3f5;
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 10px;
+}
+
+button {
+    border: none;
+    border-radius: 7px;
+    padding: 9px 12px;
+    cursor: pointer;
+    background: #e9ecef;
+}
+
+button:hover {
+    filter: brightness(.95);
+}
+
+#reset {
+    background: #222;
+    color: white;
+}
+
+#clear {
+    background: #e9ecef;
+}
+
+#results {
+    overflow-y: auto;
+    max-height: 40vh;
+    border-top: 1px solid #eee;
+}
+
+.result {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.result:hover {
+    background: #f5f5f5;
+}
+
+.result strong {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.result small {
+    color: #666;
+}
+
+/* POPUP */
+.popup-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.popup-table {
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.popup-table td {
+    padding: 4px 8px 4px 0;
+    vertical-align: top;
+}
+
+.popup-table td:first-child {
+    font-weight: bold;
+}
+
+/* BOUTON MOBILE */
+#toggle {
+    display: none;
+    position: absolute;
+    z-index: 1001;
+    top: 15px;
+    left: 15px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,.3);
+}
+
+/* MOBILE */
+@media (max-width: 700px) {
+
+    .panel {
+        display: none;
+        top: 60px;
+        left: 10px;
+        width: calc(100% - 20px);
+        max-height: 65vh;
+    }
+
+    .panel.open {
+        display: block;
+    }
+
+    #toggle {
+        display: block;
+    }
+
+    #results {
+        max-height: 28vh;
+    }
+}
 </style>
+
 </head>
 <body>
 <div id="map"></div>
